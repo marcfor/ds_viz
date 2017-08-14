@@ -12,25 +12,27 @@ app = Flask(__name__)
 def index():
     conn = sqlite3.connect('history.db')
     c = conn.cursor()
-    c.execute('''select name from collections''')
+    c.execute('''select distinct graph from collections order by graph asc;''')
     data_sources = c.fetchall()
     conn.close()
-    return render_template("index.html", data_sources=sorted(data_sources))
+    return render_template("index.html", data_sources=data_sources)
 
 
 @app.route("/data")
 def get_data():
     conn = sqlite3.connect('history.db')
     c = conn.cursor()
-    c.execute('''select c.name, e.timestamp, e.count 
+    c.execute('''select c.graph, c.name, e.timestamp, e.count 
                  from collections as c
-                 join entries as e on c.id = e.collection ''')
+                 join entries as e on c.id = e.collection
+                 order by graph asc, lang asc;''')
     results = []
     for result in c.fetchall():
         results.append({
-            'data_source': result[0],
-            'timestamp': result[1],
-            'count': result[2]
+            'graph': result[0],
+            'data_source': result[1],
+            'timestamp': result[2],
+            'count': result[3]
         })
     conn.close()
     return json.dumps(results)
