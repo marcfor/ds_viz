@@ -12,10 +12,12 @@ app = Flask(__name__)
 def index():
     conn = sqlite3.connect('history.db')
     c = conn.cursor()
-    c.execute('''select distinct graph from collections order by graph asc;''')
-    data_sources = c.fetchall()
+    c.execute('''select distinct graph 
+                 from collections 
+                 order by graph asc;''')
+    graphs = c.fetchall()
     conn.close()
-    return render_template("index.html", data_sources=data_sources)
+    return render_template("index.html", graphs=graphs)
 
 
 @app.route("/data")

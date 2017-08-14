@@ -20,15 +20,15 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
-        {% for data_source in data_sources %}
+        {% for graph in graphs %}
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="chart-wrapper">
               <div class="chart-title">
-                Data Source: {{ data_source[0] }}
+                Data Source: {{ graph[0] }}
               </div>
               <div class="chart-stage">
-                <div id="{{ data_source[0] }}"></div>
+                <div id="{{ graph[0] }}"></div>
               </div>
             </div>
           </div>
