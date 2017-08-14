@@ -18,19 +18,21 @@ function makeGraph(graph, records) {
     var chart = dc.seriesChart("#" + graph);
     chart
         .width(650)
-        .height(140)
-        .margins({top: 10, right: 50, bottom: 20, left: 50})
+        .height(480)
+        .margins({top: 10, right: 150, bottom: 50, left: 50})
         .chart(function(c) { return dc.lineChart(c).interpolate('cardinal'); })
         .dimension(dateDim)
         .group(dateGroup)
-        .transitionDuration(500)
+//        .transitionDuration(500)
+        .yAxisLabel("Documents")
+        .xAxisLabel("Date of reading")
         .x(d3.time.scale().domain([minDate, maxDate]))
         .elasticY(true)
         .yAxis().ticks(4);
-    chart.seriesAccessor(function(d) {return "timestamp: " + d.key[0];})
-        .keyAccessor(function(d) {return +d.key[1];})
+    chart.seriesAccessor(function(d) {return "timestamp: " + d.key[1];})
+        .keyAccessor(function(d) {return +d.key[0];})
         .valueAccessor(function(d) {return +d.value;})
-        .legend(dc.legend().x(350).y(350).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
+        .legend(dc.legend().x(550).y(50).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
     chart.render();
 }
 
