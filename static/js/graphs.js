@@ -55,24 +55,28 @@ function makeGraphs(error, recordsJson) {
         var fudge = (maxCount + minCount) / 40;
         var chart = dc.seriesChart("#" + aGraph);
         chart
-            .title(function(d) { return 'x=' + fmtDate(d.key[0]) + ', y=' + d.value; })
+            .title(function(d) { return 'x=' + fmtDate(d.key[0]) + ', y=' + d.value; }) // tooltip text
             .brushOn(false) // must be false for the tooltip to work
             .width(500)
             .height(300)
             .margins({top: 20, right: 50, bottom: 50, left: 50})
+            .transitionDuration(0)
             .chart(function(c) { return dc.lineChart(c) .renderDataPoints({radius: 3}); })
             .dimension(dateDim)
             .group(filteredDateGroup)
+            .seriesAccessor(function(d) { return d.key[1]; })
+            .keyAccessor(function(d) { return +d.key[0]; })
+            .valueAccessor(function(d) { return +d.value; })
+            .legend(dc.legend().x(20).y(0).itemHeight(13).gap(5).itemWidth(250).horizontal(1))
             .yAxisLabel("Documents")
             .xAxisLabel("Date of reading")
             .xAxisPadding(350)
             .x(d3.time.scale().domain([minDate, maxDate]))
             .y(d3.scale.linear().domain([minCount-fudge, maxCount+fudge]))
             .yAxis().ticks(5);
-        chart.seriesAccessor(function(d) {return d.key[1];})
-            .keyAccessor(function(d) {return +d.key[0];})
-            .valueAccessor(function(d) {return +d.value;})
-            .legend(dc.legend().x(20).y(0).itemHeight(13).gap(5).itemWidth(250).horizontal(1));
+        if (minCount / maxCount < .9) {
+            document.getElementById(aGraph).style.backgroundColor = "lightyellow";
+        }
     });
 
     dc.renderAll();
