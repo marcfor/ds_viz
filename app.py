@@ -20,6 +20,18 @@ def index():
     return render_template("index.html", graphs=graphs)
 
 
+@app.route("/test")
+def test():
+    conn = sqlite3.connect('history.db')
+    c = conn.cursor()
+    c.execute('''select distinct graph 
+                 from collections 
+                 order by graph asc;''')
+    graphs = c.fetchall()
+    conn.close()
+    return render_template("test.html", graphs=graphs)
+
+
 @app.route("/data")
 def get_data():
     conn = sqlite3.connect('history.db')
