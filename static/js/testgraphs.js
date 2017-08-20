@@ -2,6 +2,13 @@ queue()
     .defer(d3.json, "/data")
     .await(makeGraphs);
 
+function toggleGraph(evt, graph) {
+    var tab = document.getElementById(graph + '_tab');
+    tab.style.borderStyle = (tab.style.borderStyle!=='inset' ? 'inset' : 'outset');
+    var graphElement = document.getElementById(graph).parentElement.parentElement;
+    graphElement.style.display = (graphElement.style.display !== 'none' ? 'none' : '');
+}
+
 function makeGraphs(error, recordsJson) {
 	//Clean data
 	var records = recordsJson;
@@ -59,6 +66,8 @@ function makeGraphs(error, recordsJson) {
             .yAxis().ticks(5);
         if (minCount / maxCount < .9) {
             document.getElementById(aGraph).style.backgroundColor = "lightyellow";
+            document.getElementById(aGraph+'_tab').style.backgroundColor = "lightyellow";
+            toggleGraph(null, aGraph);
         }
     });
 

@@ -25,6 +25,9 @@ body.application hr {
   margin: 10px 0;
 }
 
+body.application button {
+  margin: 3px;
+}
 
 
 .navbar-inverse {
@@ -42,6 +45,8 @@ body.application hr {
   border: 1px solid #e2e2e2;
   border-radius: 3px;
   margin-bottom: 10px;
+  float: left;
+  width: 500px;
 }
 .chart-wrapper .chart-title {
   border-bottom: 1px solid #d7d7d7;

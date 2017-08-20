@@ -19,22 +19,26 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-12">
-        <div class="row">
+        <div class="tab">
         {% for graph in graphs %}
-          <div class="col-sm-4">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Data Source: {{ graph[0] }}
-              </div>
-              <div class="chart-stage">
-                <div id="{{ graph[0] }}"></div>
-              </div>
-            </div>
-          </div>
+          <button class="tablinks" id="{{ graph[0] }}_tab"
+                  onclick="toggleGraph(event, '{{ graph[0] }}');">
+              {{ graph[0] }}
+          </button>
         {% endfor %}
         </div>
-      </div>
+    </div>
+    <div class="row">
+    {% for graph in graphs %}
+        <div class="chart-wrapper" style="display:none" onclick="javascript:toggleGraph(null, '{{ graph[0] }}');">
+            <div class="chart-title">
+              Data Source: {{ graph[0] }}
+            </div>
+            <div class="chart-stage">
+              <div id="{{ graph[0] }}"></div>
+            </div>
+        </div>
+    {% endfor %}
     </div>
   </div>
   <hr>
